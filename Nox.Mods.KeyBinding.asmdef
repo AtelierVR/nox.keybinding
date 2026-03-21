@@ -1,0 +1,21 @@
+{
+    "name": "Nox.Mods.KeyBinding",
+    "rootNamespace": "",
+    "references": [
+        "UniTask",
+        "Nox.CCK",
+        "Unity.TextMeshPro",
+        "Unity.InputSystem",
+        "Nox.KeyBindings",
+        "Nox.KeyBinding.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
