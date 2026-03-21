@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <linker>
+	<assembly fullname="Nox.KeyBinding.Editor" preserve="all" />
 	<assembly fullname="Nox.KeyBinding.Runtime" preserve="all" />
 	<assembly fullname="Nox.KeyBindings" preserve="all" />
 	<assembly fullname="Nox.Mods.KeyBinding" preserve="all" />

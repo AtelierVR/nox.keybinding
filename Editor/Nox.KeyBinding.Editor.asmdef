@@ -1,0 +1,21 @@
+{
+    "name": "Nox.KeyBinding.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Nox.KeyBinding.Runtime",
+        "Nox.CCK",
+        "Nox.KeyBindings",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
