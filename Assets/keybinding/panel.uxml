@@ -1,18 +1,14 @@
-<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements"
-             xmlns:editor="UnityEditor.UIElements"
-             noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/Mods/api.nox.world/assets/Style.uss?fileID=7433441132597879392&amp;guid=e5801f130c21d4a43937749c0d48a9cd&amp;type=3#Style"/>
-    <engine:VisualElement style="flex-grow: 1; padding-top: 4px; padding-bottom: 4px;">
-        <engine:GroupBox
-                style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;">
-            <engine:VisualElement
-                    style="flex-grow: 1; border-left-color: rgb(47, 47, 47); border-right-color: rgb(47, 47, 47); border-top-color: rgb(47, 47, 47); border-bottom-color: rgb(47, 47, 47); border-bottom-width: 1px; padding-bottom: 4px; padding-top: 4px; flex-direction: row; padding-right: 8px; padding-left: 8px;">
-                <engine:Label text="Key bindings" style="margin-right: 3px; margin-left: 3px; flex-grow: 1;"/>
-                <engine:Label text="v0.0.0" name="version"/>
-            </engine:VisualElement>
-        </engine:GroupBox>
-        <engine:ScrollView style="flex-grow: 1;">
-            <engine:VisualElement name="list" style="flex-grow: 1;"/>
-        </engine:ScrollView>
-    </engine:VisualElement>
-</engine:UXML>
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Packages/nox.cck/Resources/nox.style.uss?fileID=7433441132597879392&amp;guid=956d93e835714844b98277f4fdbd77d3&amp;type=3#nox.style" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:ScrollView style="flex-grow: 1;">
+            <ui:VisualElement name="list" style="flex-grow: 1;" />
+            <ui:VisualElement name="empty" class="hidden" style="flex-grow: 1; justify-content: center;">
+                <ui:GroupBox class="p-8 m-0">
+                    <ui:Label text="No Key Bindings" class="text-lg text-center mb-8" />
+                    <ui:Label text="No key bindings are currently registered." class="text-center" style="opacity: 0.7;" />
+                </ui:GroupBox>
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

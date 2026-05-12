@@ -30,7 +30,8 @@
       "Nox.KeyBinding.Runtime.KeyBindingSystem"
     ],
     "editor": [
-      "Nox.KeyBinding.Runtime.KeyBindingEditor"
+      "Nox.KeyBinding.Runtime.KeyBindingEditor",
+      "Nox.KeyBinding.Runtime.KeyBindingPanel"
     ]
   },
   "references": [],

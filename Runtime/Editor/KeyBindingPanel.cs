@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Nox.CCK.Mods.Panels;
+using Nox.CCK.Mods.Cores;
+using Nox.CCK.Mods.Initializers;
+using Nox.Editor.Panel;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -10,20 +12,58 @@ using Logger = Nox.CCK.Utils.Logger;
 
 #if UNITY_EDITOR
 namespace Nox.KeyBinding.Runtime {
-	public class KeyBindingPanel : IEditorPanelBuilder, IDisposable {
-		public string GetId()
-			=> "keybinding";
+	public class KeyBindingPanel : IEditorModInitializer, Nox.Editor.Panel.IPanel {
+		internal IEditorModCoreAPI          API;
+		internal KeyBindingPanelInstance    Instance;
 
-		public string GetName()
-			=> "Keybinding";
+		public void OnInitializeEditor(IEditorModCoreAPI api) => API = api;
+		public void OnDisposeEditor() { Instance?.OnDestroy(); API = null; }
+		public void OnUpdateEditor()  => Instance?.OnUpdate();
 
-		public bool IsHidden()
-			=> false;
+		public string[] GetPath()  => new[] { "keybinding" };
+		public string   GetLabel() => "Keybinding";
 
-		private readonly VisualElement _root       = new();
-		private          DateTime      _lastUpdate = DateTime.MinValue;
+		public IInstance[] GetInstances()
+			=> Instance != null ? new IInstance[] { Instance } : Array.Empty<IInstance>();
 
-		public void OnUpdate() {
+		public IInstance Instantiate(IWindow window, Dictionary<string, object> data)
+			=> Instance = new KeyBindingPanelInstance(this, window);
+	}
+
+	public class KeyBindingPanelInstance : IInstance {
+		private readonly KeyBindingPanel _panel;
+		private readonly IWindow         _window;
+		private          VisualElement   _root;
+		private          DateTime        _lastUpdate = DateTime.MinValue;
+
+		public KeyBindingPanelInstance(KeyBindingPanel panel, IWindow window) {
+			_panel  = panel;
+			_window = window;
+			KeyBindingSystem.OnKeyBindingAdded.AddListener(OnKeyBindingAdded);
+			KeyBindingSystem.OnKeyBindingRemoved.AddListener(OnKeyBindingRemoved);
+		}
+
+		public Nox.Editor.Panel.IPanel GetPanel()  => _panel;
+		public IWindow                 GetWindow() => _window;
+		public string                  GetTitle()  => "Keybinding";
+
+		public void OnDestroy() {
+			KeyBindingSystem.OnKeyBindingAdded.RemoveListener(OnKeyBindingAdded);
+			KeyBindingSystem.OnKeyBindingRemoved.RemoveListener(OnKeyBindingRemoved);
+			_panel.Instance = null;
+		}
+
+		public VisualElement GetContent() {
+			if (_root != null) return _root;
+			_root = _panel.API.AssetAPI.GetAsset<VisualTreeAsset>("panel.uxml").CloneTree();
+			_root.style.flexGrow = 1;
+			foreach (var binding in KeyBindingSystem.Instance.Bindings)
+				OnKeyBindingAdded(binding);
+			UpdateEmptyState();
+			return _root;
+		}
+
+		internal void OnUpdate() {
 			if (DateTime.UtcNow - _lastUpdate < TimeSpan.FromSeconds(2.5)) return;
 			_lastUpdate = DateTime.UtcNow;
 
@@ -32,16 +72,6 @@ namespace Nox.KeyBinding.Runtime {
 				if (child != null) UpdateBinding(child, binding);
 				else OnKeyBindingAdded(binding);
 			}
-		}
-
-		public KeyBindingPanel() {
-			KeyBindingSystem.OnKeyBindingAdded.AddListener(OnKeyBindingAdded);
-			KeyBindingSystem.OnKeyBindingRemoved.AddListener(OnKeyBindingRemoved);
-		}
-
-		public void Dispose() {
-			KeyBindingSystem.OnKeyBindingAdded.RemoveListener(OnKeyBindingAdded);
-			KeyBindingSystem.OnKeyBindingRemoved.RemoveListener(OnKeyBindingRemoved);
 		}
 
 		private class UserData {
@@ -79,12 +109,12 @@ namespace Nox.KeyBinding.Runtime {
 		}
 
 		private VisualElement GetBindingElement(string id, string category = null)
-			=> _root.Q("list")
+			=> _root?.Q("list")
 				?.Children()
 				.FirstOrDefault(c => c.userData is UserData data && data.Equals(id, category));
 
 		private void OnKeyBindingAdded(KeyBinding binding) {
-			var list = _root.Q("list");
+			var list = _root?.Q("list");
 			if (list == null) return;
 			var child = GetBindingElement(binding.Id, binding.Category);
 			if (child != null) {
@@ -104,6 +134,7 @@ namespace Nox.KeyBinding.Runtime {
 			);
 			UpdateBinding(child, binding);
 			list.Add(child);
+			UpdateEmptyState();
 		}
 
 		private void OnKeyBindingRemoved(KeyBinding binding) {
@@ -113,6 +144,15 @@ namespace Nox.KeyBinding.Runtime {
 				userData.Dispose(binding);
 			_root.Q("list")?.Remove(child);
 			child.RemoveFromHierarchy();
+			UpdateEmptyState();
+		}
+
+		private void UpdateEmptyState() {
+			var list  = _root?.Q("list");
+			var empty = _root?.Q("empty");
+			if (list == null || empty == null) return;
+			var hasItems = list.childCount > 0;
+			empty.EnableInClassList("hidden", hasItems);
 		}
 
 		private void UpdateBinding(VisualElement child, KeyBinding binding) {
@@ -156,21 +196,6 @@ namespace Nox.KeyBinding.Runtime {
 			keys.Rebuild();
 		}
 
-		public VisualElement Make(Dictionary<string, object> data) {
-			_root.ClearBindings();
-			_root.Clear();
-
-			var child = KeyBindingSystem.CoreAPI.AssetAPI.GetAsset<VisualTreeAsset>("panel.uxml").CloneTree();
-			child.style.flexGrow = 1;
-			_root.Add(child);
-
-			_root.Q<Label>("version").text = "v" + KeyBindingSystem.CoreAPI.ModMetadata.GetVersion();
-
-			foreach (var binding in KeyBindingSystem.Instance.Bindings)
-				OnKeyBindingAdded(binding);
-
-			return _root;
-		}
 	}
 }
 #endif // UNITY_EDITOR

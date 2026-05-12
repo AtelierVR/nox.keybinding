@@ -3,6 +3,7 @@
     "rootNamespace": "",
     "references": [
         "Nox.CCK",
+        "Nox.Editor.Panel",
         "UniTask",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
