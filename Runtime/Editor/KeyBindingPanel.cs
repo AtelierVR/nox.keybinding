@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using Logger = Nox.CCK.Utils.Logger;
 
-#if UNITY_EDITOR
 namespace Nox.KeyBinding.Runtime {
 	public class KeyBindingPanel : IEditorModInitializer, Nox.Editor.Panel.IPanel {
 		internal IEditorModCoreAPI          API;
