@@ -23,8 +23,6 @@
       "website": "https://hactazia.fr/"
     }
   ],
-  "contributors": [],
-  "relations": [],
   "entrypoints": {
     "main": [
       "Nox.KeyBinding.Runtime.KeyBindingSystem"
@@ -33,7 +31,5 @@
       "Nox.KeyBinding.Runtime.KeyBindingEditor",
       "Nox.KeyBinding.Runtime.KeyBindingPanel"
     ]
-  },
-  "references": [],
-  "permissions": []
+  }
 }
