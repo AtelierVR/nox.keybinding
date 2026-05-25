@@ -1,5 +1,5 @@
 {
-    "name": "Nox.KeyBindings",
+    "name": "Nox.KeyBinding",
     "rootNamespace": "",
     "references": [
         "Unity.InputSystem"

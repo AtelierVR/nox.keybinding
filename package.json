@@ -1,5 +1,6 @@
 {
   "name": "nox.keybinding",
   "displayName": "Nox - KeyBinding",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "description": "Input key binding configuration and management."
 }

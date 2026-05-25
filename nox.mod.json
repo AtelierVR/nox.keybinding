@@ -7,7 +7,7 @@
   ],
   "name": "KeyBinding",
   "version": "1.0.0",
-  "description": "Provides keybinding management.",
+  "description": "Input key binding configuration and management.",
   "license": "GPL-3.0",
   "icon": null,
   "contact": {

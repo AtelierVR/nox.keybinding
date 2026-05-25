@@ -7,7 +7,7 @@
         "UniTask",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Nox.KeyBindings"
+        "Nox.KeyBinding"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

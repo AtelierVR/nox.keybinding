@@ -4,7 +4,7 @@
     "references": [
         "Nox.KeyBinding.Runtime",
         "Nox.CCK",
-        "Nox.KeyBindings",
+        "Nox.KeyBinding",
         "Unity.InputSystem"
     ],
     "includePlatforms": [

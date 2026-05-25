@@ -6,7 +6,7 @@
         "Nox.CCK",
         "Unity.TextMeshPro",
         "Unity.InputSystem",
-        "Nox.KeyBindings",
+        "Nox.KeyBinding",
         "Nox.KeyBinding.Runtime"
     ],
     "includePlatforms": [],
